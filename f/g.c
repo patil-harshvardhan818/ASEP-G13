@@ -30,7 +30,7 @@ void display_seats(Movie *movie) {
     printf("\n");
 
     for (int i = 0; i < ROWS; i++) {
-        printf("  ");
+        printf("");
         for (int j = 0; j < COLS; j++) {
             if (movie->seats[i][j] == '*') {
                 printf("\033[0;32m%c \033[0m", movie->seats[i][j]);  // Green for available seats
