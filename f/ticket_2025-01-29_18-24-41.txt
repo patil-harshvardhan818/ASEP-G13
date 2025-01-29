@@ -1,0 +1,15 @@
+--------------------------------------
+          Movie Ticket Receipt        
+--------------------------------------
+
+User Name: Krishna
+Movie Name: Pushpa 2
+
+Seats Booked:
+  - Row 1, Seat 1
+  - Row 1, Seat 2
+
+Total Cost: Rs. 380
+
+Thank you for booking with us!
+--------------------------------------
