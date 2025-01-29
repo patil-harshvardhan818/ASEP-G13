@@ -1,0 +1,208 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define ROWS 10
+#define COLS 10
+
+// Structure to store movie details
+struct Movie {
+    char name[50];
+    int seats_available;
+    int price_front;
+    int price_middle;
+    int price_back;
+    char seats[ROWS][COLS];
+};
+
+// Movie lists
+struct Movie english_movies[] = {
+    {"Marco", 50, 250, 200, 150, {}},
+    {"Avengers: Endgame", 30, 300, 250, 200, {}},
+    {"Avatar", 40, 350, 300, 250, {}},
+    {"Spider-Man: No Way Home", 35, 320, 280, 240, {}},
+    {"Jurassic Park", 45, 280, 240, 200, {}}
+};
+
+struct Movie hindi_movies[] = {
+    {"Gadar 2", 50, 220, 180, 140, {}},
+    {"Pushpa 2", 40, 270, 230, 190, {}},
+    {"Jawan", 30, 300, 250, 200, {}},
+    {"3 Idiots", 45, 250, 200, 150, {}},
+    {"Bhool Bhulaiyaa 2", 35, 280, 230, 180, {}}
+};
+
+struct Movie marathi_movies[] = {
+    {"Lai Bhaari", 50, 200, 160, 120, {}},
+    {"Sairat", 40, 220, 180, 140, {}},
+    {"Natsamrat", 30, 250, 200, 150, {}},
+    {"Timepass", 45, 230, 190, 150, {}},
+    {"Duniyadari", 35, 240, 200, 160, {}}
+};
+
+// Enum to represent seat sections
+enum Section {
+    FRONT,
+    CENTER,
+    BACK
+};
+
+// Function to initialize seating arrangement
+void initialize_seats(struct Movie *movie) {
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            movie->seats[i][j] = '*';
+        }
+    }
+}
+
+// Function to display seating arrangement
+void display_seats(struct Movie *movie) {
+    printf("\n      Screen\n");
+    for (int i = 0; i < 9; i++) {
+        printf(" -");
+    }
+    printf("\n\n");
+
+    for (int i = 0; i < ROWS; i++) {
+        for (int j = 0; j < COLS; j++) {
+            printf("%c ", movie->seats[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+// Function to display movies and get selection
+int select_movie(struct Movie movies[], int count) {
+    int choice;
+    printf("\nMovies Available:\n");
+    for (int i = 0; i < count; i++) {
+        printf("%d) %s (Front: Rs. %d, Middle: Rs. %d, Back: Rs. %d, Available: %d)\n", i + 1, movies[i].name, movies[i].price_front, movies[i].price_middle, movies[i].price_back, movies[i].seats_available);
+        initialize_seats(&movies[i]);
+    }
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+    
+    return (choice >= 1 && choice <= count) ? choice - 1 : -1;
+}
+
+// Function to book seats
+void book_seats(struct Movie *movie) {
+    int seats, row, col, section;
+    printf("\nSeats Available: %d\n", movie->seats_available);
+    display_seats(movie);
+
+    printf("Enter the number of seats you want to book: ");
+    scanf("%d", &seats);
+
+    if (seats > movie->seats_available) {
+        printf("Sorry, only %d seats are available.\n", movie->seats_available);
+        return;
+    }
+
+    printf("Select seat section:\n0) Front\n1) Center\n2) Back\nEnter your choice: ");
+    scanf("%d", &section);
+
+    if (section < 0 || section > 2) {
+        printf("Invalid section selection. Please try again.\n");
+        return;
+    }
+
+    int total_cost = 0;
+    for (int i = 0; i < seats; i++) {
+        printf("Enter row (0-9) and column (0-9) for seat %d: ", i + 1);
+        scanf("%d %d", &row, &col);
+
+        if (row < 0 || row >= ROWS || col < 0 || col >= COLS || movie->seats[row][col] == 'X') {
+            printf("Invalid seat selection. Please try again.\n");
+            i--;
+            continue;
+        }
+
+        movie->seats[row][col] = 'X'; // Mark seat as booked
+
+        switch (section) {
+            case FRONT:
+                total_cost += movie->price_front;
+                break;
+            case CENTER:
+                total_cost += movie->price_middle;
+                break;
+            case BACK:
+                total_cost += movie->price_back;
+                break;
+        }
+    }
+
+    printf("Total cost: Rs. %d\n", total_cost);
+    printf("Confirm booking? (1 for Yes, 0 for No): ");
+    int confirm;
+    scanf("%d", &confirm);
+
+    if (confirm) {
+        movie->seats_available -= seats;
+        printf("Booking confirmed! %d seats booked for %s.\n", seats, movie->name);
+        process_payment(total_cost);
+    } else {
+        printf("Booking canceled.\n");
+    }
+}
+
+// Function to process payment
+void process_payment(int total_cost) {
+    int payment_choice;
+    printf("\nChoose a payment option:\n1) Credit/Debit Card\n2) UPI\n3) Cash\n");
+    scanf("%d", &payment_choice);
+
+    switch (payment_choice) {
+        case 1:
+            printf("Enter card details: (Mock processing...)\nPayment Successful!\n");
+            break;
+        case 2:
+            printf("Enter UPI ID: (Mock processing...)\nPayment Successful!\n");
+            break;
+        case 3:
+            printf("Please pay in cash at the counter.\n");
+            break;
+        default:
+            printf("Invalid payment option.\n");
+    }
+}
+
+// Main function
+int main() {
+    printf("\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n ");
+    int choice;
+    printf("Select Movie Language:\n1) English\n2) Hindi\n3) Marathi\nEnter your choice: ");
+    scanf("%d", &choice);
+
+    struct Movie *selected_movies;
+    int movie_count = 5;
+    int movie_index;
+
+    switch (choice) {
+        case 1:
+            selected_movies = english_movies;
+            movie_index = select_movie(english_movies, movie_count);
+            break;
+        case 2:
+            selected_movies = hindi_movies;
+            movie_index = select_movie(hindi_movies, movie_count);
+            break;
+        case 3:
+            selected_movies = marathi_movies;
+            movie_index = select_movie(marathi_movies, movie_count);
+            break;
+        default:
+            printf("Invalid selection!\n");
+            return 1;
+    }
+
+    if (movie_index == -1) {
+        printf("Invalid movie choice!\n");
+        return 1;
+    }
+
+    book_seats(&selected_movies[movie_index]);
+    return 0;
+}
