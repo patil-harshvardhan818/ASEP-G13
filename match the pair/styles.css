@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f0f8ff;
+    background-image: url('background.jpg'); /* Ensure the image path is correct */
+    background-size: cover;
+    background-position: center;
+    /* background-repeat: no-repeat; Ensure the image does not repeat */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Use box model */
+}
+
+h1 {
+    color: #333;
+    margin: 20px 0;
+    background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
+    padding: 10px; /* Add padding for better readability */
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Use box model */
+}
+
+.question {
+    display: none;
+    justify-content: center;
+    margin-bottom: 20px;
+    box-sizing: border-box; /* Use box model */
+}
+
+.question.active {
+    display: flex;
+}
+
+.column {
+    margin: 0 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box; /* Use box model */
+}
+
+.item, .dropzone {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    cursor: pointer;
+    box-sizing: border-box; /* Use box model */
+}
+
+.item:hover {
+    background-color: #f1f1f1;
+}
+
+.item.dragging {
+    opacity: 0.5;
+}
+
+.dropzone {
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#submit, .next, .reset {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-right: 10px; /* Add some space between buttons */
+    box-sizing: border-box; /* Use box model */
+}
+
+#result, #score {
+    margin-top: 20px;
+    font-weight: bold;
+    box-sizing: border-box; /* Use box model */
+}
