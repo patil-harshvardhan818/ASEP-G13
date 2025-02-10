@@ -197,7 +197,7 @@ int main() {
 
     #include <stdio.h>
 
-    printf( "TTTTT  I  CCCCC  K   K  EEEEE  TTTTT      BBBB   OOOOO  OOOOO  K   K  III  N   N  GGGGG\n");
+    printf("TTTTT  I  CCCCC  K   K  EEEEE  TTTTT      BBBB   OOOOO  OOOOO  K   K  III  N   N  GGGGG\n");
     printf("  T    I  C      K  K   E        T        B   B  O   O  O   O  K  K    I   NN  N  G    \n");
     printf("  T    I  C      KKK    EEEE     T        BBBB   O   O  O   O  KKK     I   N N N  G  GG\n");
     printf("  T    I  C      K  K   E        T        B   B  O   O  O   O  K  K    I   N  NN  G   G\n");
