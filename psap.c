@@ -15,7 +15,6 @@
 #define WHITE_TEXT "\033[1;37m"
 #define VIOLET_TEXT "\033[38;5;92m"   
 
-
 // Background Colors
 #define RED_BG "\033[41m"
 #define GREEN_BG "\033[42m"
@@ -24,8 +23,8 @@
 #define MAGENTA_BG "\033[45m"
 #define CYAN_BG "\033[46m"
 #define WHITE_BG "\033[47m"
-#define VIOLET_BG   "\033[48;5;92m"
-#define GREY_BG  "\033[100m"
+#define VIOLET_BG "\033[48;5;92m"
+#define GREY_BG "\033[100m"
 
 // Reset Code
 #define RESET "\033[0m"
@@ -97,7 +96,7 @@ void save_ticket_to_file(char *user_name, char *movie_name, int seats_booked[][2
 }
 
 void book_seats(Movie *movie, char *user_name) {
-    int seats, row, col, section;
+    int seats, row, col, s;
     int total_cost = 0;
     int booked_seats[100][2];  // Stores row and column of booked seats
 
@@ -111,23 +110,29 @@ void book_seats(Movie *movie, char *user_name) {
     }
 
     printf(YELLOW_TEXT"Select seat section : "RESET"\n1) Front (Rs. %d)\n2) Center (Rs. %d)\n3) Back (Rs. %d)\n" GREEN_TEXT"Enter your choice: "RESET, movie->price_front, movie->price_middle, movie->price_back);
-    while (scanf("%d", &section) != 1 || section < 1 || section > 3) {
+    while (scanf("%d", &s) != 1 || s < 1 || s > 3) {
         printf("Invalid section selection. Please enter again: ");
         while (getchar() != '\n'); // Clear the input buffer
     }
 
     for (int i = 0; i < seats; i++) {
-        printf("Enter row (1-10) and column (1-10) for seat %d: ", i + 1);
-        while (scanf("%d %d", &row, &col) != 2 || row < 1 || row > ROWS || col < 1 || col > COLS || movie->seats[row-1][col-1] == 'X') {
-            printf("Invalid or already booked seat. Please enter again: ");
+        printf("Enter row (%d-%d) and column (1-10) for seat %d: ",(s==1?1:s==2?4:8),(s==1?3:s==2?7:10), i + 1);
+        while (scanf("%d %d", &row, &col) != 2 ||
+               row < 1 || row > ROWS ||
+               col < 1 || col > COLS ||
+               movie->seats[row - 1][col - 1] == 'X' ||
+               (s == 1 && (row < 1 || row > 3)) ||      // Front: rows 1-3
+               (s == 2 && (row < 4 || row > 7)) ||      // Center: rows 4-7
+               (s == 3 && (row < 8 || row > 10))) {     // Back: rows 8-10
+            printf("Invalid or already booked seat. Please enter a valid seat in the selected section: ");
             while (getchar() != '\n'); // Clear the input buffer
         }
 
-        movie->seats[row-1][col-1] = 'X'; // Mark seat as booked
-        booked_seats[i][0] = row-1;
-        booked_seats[i][1] = col-1;
+        movie->seats[row - 1][col - 1] = 'X'; // Mark seat as booked
+        booked_seats[i][0] = row - 1;
+        booked_seats[i][1] = col - 1;
 
-        switch (section) {
+        switch (s) {
             case 1:
                 total_cost += movie->price_front;
                 break;
@@ -141,7 +146,7 @@ void book_seats(Movie *movie, char *user_name) {
     }
 
     printf("\nTotal cost: Rs. %d\n", total_cost);
-    printf( GREEN_TEXT"Confirm booking?" RESET " (1 for Yes, 0 for No): ");
+    printf(GREEN_TEXT"Confirm booking?" RESET " (1 for Yes, 0 for No): ");
     int confirm;
     while (scanf("%d", &confirm) != 1 || confirm < 0 || confirm > 1) {
         printf("Invalid input. Please enter 1 for Yes or 0 for No: ");
@@ -179,7 +184,7 @@ void book_seats(Movie *movie, char *user_name) {
 }
 
 int select_movie(Movie movies[], int count) {
-    printf( YELLOW_TEXT"\nMovies Available:\n" RESET);
+    printf(YELLOW_TEXT"\nMovies Available:\n" RESET);
     for (int i = 0; i < count; i++) {
         printf("%d) %s (Available: %d)\n", i + 1, movies[i].title, movies[i].availableSeats);
     }
@@ -194,9 +199,6 @@ int select_movie(Movie movies[], int count) {
 }
 
 int main() {
-
-    #include <stdio.h>
-
     printf("TTTTT  I  CCCCC  K   K  EEEEE  TTTTT      BBBB   OOOOO  OOOOO  K   K  III  N   N  GGGGG\n");
     printf("  T    I  C      K  K   E        T        B   B  O   O  O   O  K  K    I   NN  N  G    \n");
     printf("  T    I  C      KKK    EEEE     T        BBBB   O   O  O   O  KKK     I   N N N  G  GG\n");
@@ -232,7 +234,7 @@ int main() {
     }
 
     while (1) {
-        printf( YELLOW_TEXT"\nSelect Movie Language : " RESET
+        printf(YELLOW_TEXT"\nSelect Movie Language : " RESET
             BLUE_TEXT"\n1) English  "RESET
             VIOLET_TEXT"\n2) Hindi    "RESET
             MAGENTA_TEXT"\n3) Marathi  "RESET
@@ -272,4 +274,3 @@ int main() {
 
     return 0;
 }
-
