@@ -5,7 +5,6 @@
 
 #define ROWS 10
 #define COLS 10
-// Text Colors
 #define RED_TEXT "\033[1;31m"
 #define GREEN_TEXT "\033[1;32m"
 #define YELLOW_TEXT "\033[1;33m"
@@ -15,7 +14,6 @@
 #define WHITE_TEXT "\033[1;37m"
 #define VIOLET_TEXT "\033[38;5;92m"   
 
-// Background Colors
 #define RED_BG "\033[41m"
 #define GREEN_BG "\033[42m"
 #define YELLOW_BG "\033[43m"
@@ -26,7 +24,6 @@
 #define VIOLET_BG "\033[48;5;92m"
 #define GREY_BG "\033[100m"
 
-// Reset Code
 #define RESET "\033[0m"
 
 typedef struct {
@@ -42,7 +39,7 @@ typedef struct {
 void initialize_seats(Movie *movie) {
     for (int i = 0; i < ROWS; i++) {
         for (int j = 0; j < COLS; j++) {
-            movie->seats[i][j] = '*';  // '*' represents available seats
+            movie->seats[i][j] = '*'; 
         }
     }
 }
@@ -52,12 +49,12 @@ void display_seats(Movie *movie) {
     printf("\n");
 
     for (int i = 0; i < ROWS; i++) {
-        printf(" ");  // Indentation for better formatting
+        printf(" "); 
         for (int j = 0; j < COLS; j++) {
             if (movie->seats[i][j] == '*') {  
-                printf("\033[1;32;100m%c \033[0m", movie->seats[i][j]);  // Green text, White background
+                printf("\033[1;32;100m%c \033[0m", movie->seats[i][j]);
             } else {  
-                printf("\033[1;31m%c \033[0m", movie->seats[i][j]);  // Red text, Default background
+                printf("\033[1;31m%c \033[0m", movie->seats[i][j]);
             }
         }
         printf("\n");  
@@ -98,7 +95,7 @@ void save_ticket_to_file(char *user_name, char *movie_name, int seats_booked[][2
 void book_seats(Movie *movie, char *user_name) {
     int seats, row, col, s;
     int total_cost = 0;
-    int booked_seats[100][2];  // Stores row and column of booked seats
+    int booked_seats[100][2]; 
 
     printf("\nSeats Available: %d\n", movie->availableSeats);
     display_seats(movie);
@@ -106,13 +103,13 @@ void book_seats(Movie *movie, char *user_name) {
     printf("%s, Enter the number of seats you want to book: ", user_name);
     while (scanf("%d", &seats) != 1 || seats <= 0 || seats > movie->availableSeats) {
         printf("Invalid number of seats. Please enter again: ");
-        while (getchar() != '\n'); // Clear the input buffer
+        while (getchar() != '\n');
     }
 
     printf(YELLOW_TEXT"Select seat section : "RESET"\n1) Front (Rs. %d)\n2) Center (Rs. %d)\n3) Back (Rs. %d)\n" GREEN_TEXT"Enter your choice: "RESET, movie->price_front, movie->price_middle, movie->price_back);
     while (scanf("%d", &s) != 1 || s < 1 || s > 3) {
         printf("Invalid section selection. Please enter again: ");
-        while (getchar() != '\n'); // Clear the input buffer
+        while (getchar() != '\n'); 
     }
 
     for (int i = 0; i < seats; i++) {
@@ -121,14 +118,14 @@ void book_seats(Movie *movie, char *user_name) {
                row < 1 || row > ROWS ||
                col < 1 || col > COLS ||
                movie->seats[row - 1][col - 1] == 'X' ||
-               (s == 1 && (row < 1 || row > 3)) ||      // Front: rows 1-3
-               (s == 2 && (row < 4 || row > 7)) ||      // Center: rows 4-7
-               (s == 3 && (row < 8 || row > 10))) {     // Back: rows 8-10
+               (s == 1 && (row < 1 || row > 3)) ||      
+               (s == 2 && (row < 4 || row > 7)) ||     
+               (s == 3 && (row < 8 || row > 10))) {
             printf("Invalid or already booked seat. Please enter a valid seat in the selected section: ");
-            while (getchar() != '\n'); // Clear the input buffer
+            while (getchar() != '\n'); 
         }
 
-        movie->seats[row - 1][col - 1] = 'X'; // Mark seat as booked
+        movie->seats[row - 1][col - 1] = 'X';
         booked_seats[i][0] = row - 1;
         booked_seats[i][1] = col - 1;
 
@@ -150,7 +147,7 @@ void book_seats(Movie *movie, char *user_name) {
     int confirm;
     while (scanf("%d", &confirm) != 1 || confirm < 0 || confirm > 1) {
         printf("Invalid input. Please enter 1 for Yes or 0 for No: ");
-        while (getchar() != '\n'); // Clear the input buffer
+        while (getchar() != '\n'); 
     }
 
     if (confirm != 1) {
@@ -162,7 +159,7 @@ void book_seats(Movie *movie, char *user_name) {
     int payment_method;
     while (scanf("%d", &payment_method) != 1 || payment_method < 1 || payment_method > 3) {
         printf("Invalid payment method. Please enter again: ");
-        while (getchar() != '\n'); // Clear the input buffer
+        while (getchar() != '\n'); 
     }
 
     movie->availableSeats -= seats;
@@ -172,14 +169,14 @@ void book_seats(Movie *movie, char *user_name) {
     printf("\nWould you like to book another ticket? (1 for Yes, 0 for No): ");
     while (scanf("%d", &confirm) != 1 || confirm < 0 || confirm > 1) {
         printf("Invalid input. Please enter 1 for Yes or 0 for No: ");
-        while (getchar() != '\n'); // Clear the input buffer
+        while (getchar() != '\n'); 
     }
 
     if (confirm == 1) {
         return;
     } else {
         printf("Exiting... Thank you for using the movie booking system!\n");
-        exit(0); // End the program
+        exit(0); 
     }
 }
 
@@ -192,7 +189,7 @@ int select_movie(Movie movies[], int count) {
     int choice;
     while (scanf("%d", &choice) != 1 || choice < 1 || choice > count) {
         printf("Invalid movie choice. Please enter again: ");
-        while (getchar() != '\n'); // Clear the input buffer
+        while (getchar() != '\n'); 
     }
 
     return choice - 1;
@@ -243,7 +240,7 @@ int main() {
         int choice;
         while (scanf("%d", &choice) != 1 || choice < 1 || choice > 4) {
             printf("Invalid selection. Please enter again: ");
-            while (getchar() != '\n'); // Clear the input buffer
+            while (getchar() != '\n');
         }
 
         Movie *selected_movies;
