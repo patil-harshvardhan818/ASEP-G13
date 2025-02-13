@@ -2,9 +2,9 @@ body {
     font-family: Arial, sans-serif;
     text-align: center;
     background-color: #f0f8ff;
-    background-image: url('background.jpg'); /* Ensure the image path is correct */
-    background-size: contain;
-    background-position: center;
+    background-image: url('Triangles.jpg'); /* Ensure the image path is correct */
+    background-size: cover;
+    /* background-position: center; */
     /* background-repeat: no-repeat; Ensure the image does not repeat */
     margin: 0;
     padding: 0;
@@ -17,14 +17,19 @@ h1 {
     background-color: rgba(255, 255, 255, 0.6); /* Semi-transparent background */
     padding: 10px; /* Add padding for better readability */
 }
-
+h2{
+    margin-top: 40px;
+    color: #4e7878;
+}
 .game-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px;
+    margin-top: 40px;
+    margin-left: 280px;
+    margin-right: 280px;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    background-color: rgb(212 193 193 / 80%); /* Semi-transparent background */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     box-sizing: border-box; /* Use box model */
@@ -82,10 +87,15 @@ h1 {
     cursor: pointer;
     margin-right: 10px; /* Add some space between buttons */
     box-sizing: border-box; /* Use box model */
+    border-radius: 20px;
 }
 
 #result, #score {
     margin-top: 20px;
     font-weight: bold;
     box-sizing: border-box; /* Use box model */
+    margin-left: 40vw;
+    margin-right: 40vw;
+    background-color: black;
+    color: white;
 }
