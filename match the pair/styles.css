@@ -3,7 +3,7 @@ body {
     text-align: center;
     background-color: #f0f8ff;
     background-image: url('background.jpg'); /* Ensure the image path is correct */
-    background-size: cover;
+    background-size: contain;
     background-position: center;
     /* background-repeat: no-repeat; Ensure the image does not repeat */
     margin: 0;
